@@ -1,0 +1,36 @@
+<p>calendar-comp works!</p>
+<div class="ae-calendar">
+    <!-- Header del calendario -->
+    <div class="ae-calendar__header">
+        <h2 class="ae-calendar__title">{{monthNames[currentMonth]}} {{currentYear}}</h2>
+        <div class="ae-calendar__nav">
+            <button class="ae-btn ae-btn--icon" (click)="previousMonth()" aria-label="Mes anterior"></button>
+            <button class="ae-btn ae-btn--icon" (click)="nextMonth()" aria-label="Mes siguiente"></button>
+        </div>
+    </div>
+
+    <!-- Nombres de los dias -->
+    <div class="ae-calendar__grid ae-calendar__grid--header">
+        <div *ngFor="let d of dayNames">
+            {{d}}
+        </div>
+    </div>
+
+    <div class="ae-calendar__grid">
+        <ng-container *ngFor="let cell of gridDays; let i = index">
+        <div *ngIf="cell.type === 'empty'" class="ae-calendar__cell ae-calendar__cell--empty" [attr.data-index]="i"></div>
+
+        <button
+            *ngIf="cell.type === 'day'"
+            class="ae-calendar__cell ae-calendar__cell--day"
+            [class.--today]="cell.today"
+            [class.--selected]="cell.selected"
+            (click)="onSelectDay(cell.day)"
+            [attr.aria-label]="(monthNames[currentMonth] + ' ' + cell.day + ' ' + currentYear)">
+            <span class="ae-calendar__daynum">{{ cell.day }}</span>
+            <span *ngIf="cell.hasItems" class="ae-calendar__dot" aria-hidden="true"></span>
+        </button>
+        </ng-container>
+    </div>
+
+</div>

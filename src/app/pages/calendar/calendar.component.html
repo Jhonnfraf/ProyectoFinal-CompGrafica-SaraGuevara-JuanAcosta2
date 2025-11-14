@@ -1,0 +1,15 @@
+<div>
+    <app-header></app-header>
+</div>
+<div>
+    <app-user></app-user>
+
+        <!-- Pass current selectedDate and items; listen to selectDate to update parent state -->
+        <app-calendar-comp
+            [selectedDate]="selectedDate"
+            [itemsByDate]="itemsByDate"
+            (selectDate)="onSelectDate($event)">
+        </app-calendar-comp>
+
+    <app-objetos></app-objetos>
+</div>

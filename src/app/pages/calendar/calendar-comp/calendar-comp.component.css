@@ -1,0 +1,38 @@
+/* Visual styles para el componente calendario de ejemplo */
+:host { display: block; font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+
+.ae-calendar { background: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); max-width: 720px; }
+
+.ae-calendar__header { display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; }
+.ae-calendar__title { font-size: 1.125rem; font-weight: 600; color: #0f172a; margin:0; }
+.ae-calendar__nav { display:flex; gap:8px; }
+.ae-btn { background: transparent; border: none; cursor: pointer; padding:6px 8px; border-radius:8px; }
+.ae-btn--icon { width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; background:#f3f4f6; }
+
+.ae-calendar__grid { display:grid; grid-template-columns: repeat(7, 1fr); gap:8px; }
+.ae-calendar__grid--header { margin-bottom:8px; }
+.ae-calendar__dayname { text-align:center; font-size:0.75rem; color:#6b7280; }
+
+.ae-calendar__cell { aspect-ratio: 1 / 1; display:flex; align-items:flex-start; justify-content:flex-start; padding:8px; border-radius:10px; position:relative; }
+.ae-calendar__cell--empty { background: transparent; }
+
+.ae-calendar__cell--day { background:#fafafa; border: 1px solid rgba(15,23,42,0.03); cursor:pointer; transition: transform 0.12s ease, box-shadow 0.12s ease; }
+.ae-calendar__cell--day:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(2,6,23,0.06); }
+
+.ae-calendar__daynum { font-size:0.95rem; color:#0f172a; font-weight:500; }
+
+/* Estilo para el día actual */
+.ae-calendar__cell--day.--today { box-shadow: 0 0 0 2px rgba(99,102,241,0.12); }
+
+/* Estilo para el día seleccionado */
+.ae-calendar__cell--day.--selected { background:#4f46e5; color:#fff; }
+.ae-calendar__cell--day.--selected .ae-calendar__daynum { color: #fff; }
+
+/* Punto indicador de items */
+.ae-calendar__dot { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:8px; height:8px; background:#111827; border-radius:999px; }
+
+/* Responsive: reducir padding en pantallas pequeñas */
+@media (max-width: 640px) {
+  .ae-calendar { padding:12px; }
+  .ae-calendar__cell { padding:6px; }
+}

@@ -1,0 +1,28 @@
+<div class="header__container">
+    <div>
+        <h1>Mi Calendario</h1>
+        <p>Gestiona tus eventos, recordatorios y rutinas</p>
+    </div>
+    <button class="header__button" (click)="ObtenerDatos()">+ Agregar</button>  
+</div>
+<div class="modal-overlay" *ngIf="mostrarModal">
+  <!-- Contenedor de la ventana -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Agregar Nuevo</h2>
+      <button class="close-btn" (click)="cerrarModal()">×</button>
+    </div>
+    <div class="modal-buttons">
+        <button class="modal-button" (click)="OpcionEvento()" [class.active]="OpcionSelecEvento">Evento</button>
+        <button class="modal-button" (click)="OpcionRecordatorio()" [class.active]="OpcionSelecRecordatorio">Recordatorio</button>
+        <button class="modal-button" (click)="OpcionRutina()" [class.active]="OpcionSelecRutina">Rutina</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Aquí va el contenido según la opción seleccionada -->
+      <ng-container *ngIf="OpcionSelecEvento">Contenido del evento...</ng-container>
+      <ng-container *ngIf="OpcionSelecRecordatorio">Contenido del recordatorio...</ng-container>
+      <ng-container *ngIf="OpcionSelecRutina">Contenido de la rutina...</ng-container>
+    </div>
+  </div>
+</div>
