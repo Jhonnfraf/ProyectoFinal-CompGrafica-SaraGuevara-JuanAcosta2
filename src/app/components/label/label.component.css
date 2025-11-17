@@ -1,0 +1,19 @@
+
+.custom-input {
+    font-size: 1.1rem;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 2px solid #9a9a9a;
+    font-weight: 500;
+    width: 100%;
+}
+
+.custom-input:focus {
+    border-color: #414656;
+    box-shadow: 0 0 0 2px rgba(26, 78, 255, 0.2);
+}
+
+.my-field label {
+    font-size: 0.95rem;
+    color: #3c3c3c;
+}

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CalendarComponent } from './pages/calendar/calendar.component';
+
+import { PrimeNG } from 'primeng/config';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,12 @@ import { CalendarComponent } from './pages/calendar/calendar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'proyectofinal';
+
+  constructor(private primeng: PrimeNG) {}
+
+  ngOnInit(){
+    this.primeng.ripple.set(true);
+  }
 }

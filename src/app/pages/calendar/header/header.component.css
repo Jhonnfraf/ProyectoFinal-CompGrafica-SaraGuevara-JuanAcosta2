@@ -130,6 +130,17 @@
   transform: scale(1);
 }
 
+/*Contenedor de fecha y hora*/
+.date-hour-container {
+  display: flex;
+  gap: 1rem;
+}
+
+/*Contenedor de fecha*/
+.date-container, .hour-container {
+  flex: 1;
+}
+
 /* Pequeño efecto de "rebote" al activar */
 @keyframes pulseActive {
   0% {

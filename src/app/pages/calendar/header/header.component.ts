@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarioService } from '../../../services/calendario.service';
 import { NgIf } from '@angular/common';
+import { LabelComponent } from '../../../components/label/label.component';
 
 @Component({
   selector: 'app-header',
-  imports: [NgIf],
+  imports: [NgIf, LabelComponent, ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -24,6 +25,17 @@ export class HeaderComponent implements OnInit {
   ];
 
   dayNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+  //Guardar variables de fecha, mes y año actuales
+  tituloFecha: string = "";
+  dia: number = 0;
+  mes: string = "";
+  anio: number = 0;
+
+  //Variables encargadas de los modelos de los inputs
+  nombreEvento: string = '';
+  descripcionEvento: string = '';
+  fechaEvento: string = '';
   
   //Metodos para abrir modal con datos de la fecha seleccionada
 
@@ -36,13 +48,25 @@ export class HeaderComponent implements OnInit {
 
     const nombreDia = this.convertirDia(fecha.getDay());
     const nombreMes = this.convertirMes(fecha.getMonth());
+
     console.log(`Día: ${nombreDia}, Mes: ${nombreMes}, Año: ${anio}`);
+
+    //guardar valores en variables
+    this.tituloFecha = `${nombreDia}, ${dia} de ${nombreMes} de ${anio}`;
+    this.dia = dia;
+    this.mes = nombreMes;
+    this.anio = anio;
+
     this.mostrarModal = true;
-    return { dia, mes, anio };
+
+    this.fechaEvento = `${anio}-${mes.toString().padStart(2,'0')}-${dia.toString().padStart(2,'0')}`;
+    
   }
 
   cerrarModal() {
     this.mostrarModal = false;
+    this.nombreEvento = '';
+    this.descripcionEvento = '';
   }
 
   //Metodos auxiliares para convertir numero a nombre de dia y mes
@@ -61,10 +85,16 @@ export class HeaderComponent implements OnInit {
   OpcionSelecRecordatorio: boolean = false;
   OpcionSelecRutina: boolean = false;
 
+  ResetearOpciones() {
+    this.nombreEvento = '';
+    this.descripcionEvento = '';
+  }
+
   OpcionEvento() {
     this.OpcionSelecEvento = true;
     this.OpcionSelecRecordatorio = false;
     this.OpcionSelecRutina = false;
+    this.ResetearOpciones();
     console.log("Abrir opciones de evento");
   }
 
@@ -72,6 +102,7 @@ export class HeaderComponent implements OnInit {
     this.OpcionSelecRecordatorio = true;
     this.OpcionSelecEvento = false;
     this.OpcionSelecRutina = false;
+    this.ResetearOpciones();
     console.log("Abrir opciones de recordatorio");
   }
 
@@ -79,6 +110,23 @@ export class HeaderComponent implements OnInit {
     this.OpcionSelecRutina = true;
     this.OpcionSelecEvento = false;
     this.OpcionSelecRecordatorio = false;
+    this.ResetearOpciones();
     console.log("Abrir opciones de rutina");
   }
+
+  ObtenerFechaString(): string{
+    const fecha = this.calendarioService.getSelectedDate();
+    const dia = fecha.getDate();
+    const mes = fecha.getMonth() + 1; // Los meses en JavaScript son base 0
+    const anio = fecha.getFullYear();
+
+    return `${mes}/${dia}/${anio}`
+  }
+
+  //Logica para guardar evento en el calendario (En desarrollo - se necesita backend)
+  GuardarEvento() {
+    console.log("Evento guardado");
+    this.cerrarModal();
+  }
+
 }

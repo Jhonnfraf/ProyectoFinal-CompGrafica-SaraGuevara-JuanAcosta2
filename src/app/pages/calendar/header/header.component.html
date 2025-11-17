@@ -12,6 +12,7 @@
       <h2>Agregar Nuevo</h2>
       <button class="close-btn" (click)="cerrarModal()">×</button>
     </div>
+    <p >{{ tituloFecha }}</p>
     <div class="modal-buttons">
         <button class="modal-button" (click)="OpcionEvento()" [class.active]="OpcionSelecEvento">Evento</button>
         <button class="modal-button" (click)="OpcionRecordatorio()" [class.active]="OpcionSelecRecordatorio">Recordatorio</button>
@@ -20,9 +21,27 @@
 
     <div class="modal-body">
       <!-- Aquí va el contenido según la opción seleccionada -->
-      <ng-container *ngIf="OpcionSelecEvento">Contenido del evento...</ng-container>
+      <ng-container *ngIf="OpcionSelecEvento">
+        Titulo
+        <app-label id="nombre-evento" label="Nombre del evento" type="text" [(model)]="nombreEvento"></app-label>
+        Descripcion (opcional)
+        <app-label id="descripcion-evento" label="Descripción del evento" type="text" [(model)]="descripcionEvento"></app-label>
+        <div class="date-hour-container">
+          <div class="date-container">
+            Fecha <!-- Busco elemento aqui-->
+            
+          </div>
+          <div class="hour-container">
+            Hora <!-- Busco elemento aqui-->
+          </div>
+        </div>
+      </ng-container>
       <ng-container *ngIf="OpcionSelecRecordatorio">Contenido del recordatorio...</ng-container>
       <ng-container *ngIf="OpcionSelecRutina">Contenido de la rutina...</ng-container>
+    </div>
+    <div>
+      <button class="header__button" (click)="cerrarModal()">Cancelar</button>
+      <button class="header__button" (click)="GuardarEvento()">Agregar</button>
     </div>
   </div>
 </div>
