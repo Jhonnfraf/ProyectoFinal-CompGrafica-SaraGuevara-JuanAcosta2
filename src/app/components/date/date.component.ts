@@ -1,14 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DatePicker } from 'primeng/datepicker';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
-  selector: 'app-hour',
-  imports: [FormsModule, DatePicker],
-  templateUrl: './hour.component.html',
-  styleUrl: './hour.component.css'
+  selector: 'app-date',
+  standalone: true,
+  imports: [FormsModule, DatePickerModule],
+  templateUrl: './date.component.html',
+  styleUrls: ['./date.component.css']
 })
-export class HourComponent {
+export class DateComponent {
+
   @Input() id: string = '';
   @Input() model: any; // Puede ser Date o string según tu uso
 
@@ -17,4 +19,5 @@ export class HourComponent {
   onInputChange(value: any) {
     this.modelChange.emit(value);
   }
+
 }

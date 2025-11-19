@@ -5,6 +5,7 @@
     </div>
     <button class="header__button" (click)="ObtenerDatos()">+ Agregar</button>  
 </div>
+
 <div class="modal-overlay" *ngIf="mostrarModal">
   <!-- Contenedor de la ventana -->
   <div class="modal-content">
@@ -18,7 +19,6 @@
         <button class="modal-button" (click)="OpcionRecordatorio()" [class.active]="OpcionSelecRecordatorio">Recordatorio</button>
         <button class="modal-button" (click)="OpcionRutina()" [class.active]="OpcionSelecRutina">Rutina</button>
     </div>
-
     <div class="modal-body">
       <!-- Aquí va el contenido según la opción seleccionada -->
       <ng-container *ngIf="OpcionSelecEvento">
@@ -29,17 +29,81 @@
         <div class="date-hour-container">
           <div class="date-container">
             Fecha <!-- Busco elemento aqui-->
-            
+            <app-date id="fecha-evento" [(model)]="fechaEvento"></app-date>
           </div>
           <div class="hour-container">
             Hora <!-- Busco elemento aqui-->
+            <app-hour id="hora-evento" [(model)]="horaEvento"></app-hour>
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="OpcionSelecRecordatorio">Contenido del recordatorio...</ng-container>
-      <ng-container *ngIf="OpcionSelecRutina">Contenido de la rutina...</ng-container>
+      <!--RECUADRO PARA RECORDATORIO-->
+      <ng-container *ngIf="OpcionSelecRecordatorio">
+        Titulo
+        <app-label id="nombre-evento" label="Nombre del evento" type="text" [(model)]="nombreEvento"></app-label>
+        Descripcion (opcional)
+        <app-label id="descripcion-evento" label="Descripción del evento" type="text" [(model)]="descripcionEvento"></app-label>
+        <div class="hour-container">
+          Hora
+          <app-hour id="hora-evento" [(model)]="horaRecordatorio"></app-hour>
+        </div>
+        <div class="dias-buttons">
+          <p>Dias de semana</p>
+          <button
+          *ngFor="let dia of diasSemana"
+          class="dia-button"
+          [class.active]="diasSeleccionados.includes(dia.id)"
+          (click)="seleccionarDias(dia.id)">
+            {{dia.nombre}}
+          </button>
+        </div>
+        <div class="date-hour-container">
+          <div class="date-container">
+            <label>Fecha de inicio</label>
+            <app-date [(model)]="fechaInicio"></app-date>
+          </div>
+
+          <div class="date-container">
+            <label>Fecha de fin (opcional)</label>
+            <app-date [(model)]="fechaFin"></app-date>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--RECUADRO PARA RUTINA-->
+      <ng-container *ngIf="OpcionSelecRutina">
+        <label>Título</label>
+        <app-label id="nombre-rutina" label="Nombre de la rutina" type="text" [(model)]="nombreEvento"></app-label>
+
+        <label>Descripción (opcional)</label>
+        <app-label id="descripcion-rutina" label="Descripción de la rutina" type="text" [(model)]="descripcionEvento"></app-label>
+
+        <div class="date-hour-container">
+          <div class="hour-container">
+            <label>Hora inicio</label>
+            <app-hour [(model)]="horaInicio"></app-hour>
+          </div>
+
+          <div class="hour-container">
+            <label>Hora fin</label>
+            <app-hour [(model)]="horaFin"></app-hour>
+          </div>
+        </div>
+
+        <div class="dias-buttons">
+          <p>Dias de semana</p>
+          <button
+          *ngFor="let dia of diasSemana"
+          class="dia-button"
+          [class.active]="diasSeleccionados.includes(dia.id)"
+          (click)="seleccionarDias(dia.id)">
+            {{dia.nombre}}
+          </button>
+        </div>
+      </ng-container>
     </div>
-    <div>
+    
+    <div class="header__button__group">
       <button class="header__button" (click)="cerrarModal()">Cancelar</button>
       <button class="header__button" (click)="GuardarEvento()">Agregar</button>
     </div>

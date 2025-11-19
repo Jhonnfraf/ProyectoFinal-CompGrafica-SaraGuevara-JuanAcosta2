@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarioService } from '../../../services/calendario.service';
 import { NgIf } from '@angular/common';
 import { LabelComponent } from '../../../components/label/label.component';
+import { DateComponent } from '../../../components/date/date.component';
+import { HourComponent } from '../../../components/hour/hour.component';
+import { FormsModule } from "@angular/forms";
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [NgIf, LabelComponent, ],
+  imports: [NgIf,NgFor, LabelComponent, DateComponent, HourComponent, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -32,10 +36,30 @@ export class HeaderComponent implements OnInit {
   mes: string = "";
   anio: number = 0;
 
-  //Variables encargadas de los modelos de los inputs
+  //Variables encargadas de los modelos de los inputs (Probablemente use estas para la base de datos)
+  diasSeleccionados: number[] = [];
+
+  diasSemana = [
+    {id:1, nombre:"L"},
+    { id: 2, nombre: 'M' },
+    { id: 3, nombre: 'X' },
+    { id: 4, nombre: 'J' },
+    { id: 5, nombre: 'V' },
+    { id: 6, nombre: 'S' },
+    { id: 0, nombre: 'D' }
+  ]
+  //Evento
   nombreEvento: string = '';
   descripcionEvento: string = '';
   fechaEvento: string = '';
+  horaEvento: string = '';
+  //Recordatorio
+  horaRecordatorio: string = '';
+  fechaInicio: string = '';
+  fechaFin: string = '';
+  //Rutina
+  horaInicio: string = '';
+  horaFin: string = '';
   
   //Metodos para abrir modal con datos de la fecha seleccionada
 
@@ -88,6 +112,7 @@ export class HeaderComponent implements OnInit {
   ResetearOpciones() {
     this.nombreEvento = '';
     this.descripcionEvento = '';
+
   }
 
   OpcionEvento() {
@@ -128,5 +153,17 @@ export class HeaderComponent implements OnInit {
     console.log("Evento guardado");
     this.cerrarModal();
   }
+
+  seleccionarDias(diaId: number){
+    if(this.diasSeleccionados.includes(diaId)){
+      this.diasSeleccionados = this.diasSeleccionados.filter(d => d !== diaId);
+    } 
+    else {
+      this.diasSeleccionados.push(diaId)
+    }
+    console.log("Días seleccionados:", this.diasSeleccionados);
+  }
+
+  
 
 }
