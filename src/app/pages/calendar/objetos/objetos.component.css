@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  font-family: Inter, sans-serif;
+}
+
+/* Contenedor principal */
+.objetos-comp {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Título (día seleccionado) */
+.objetos-comp h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+/* Contenedor de las tarjetas */
+.objetos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilo base de card */
+.objeto-card {
+  padding: 15px 18px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border-left: 6px solid transparent;
+  animation: fadeIn 0.25s ease;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.objeto-card:hover {
+  transform: scale(1.02);
+}
+
+/* Tipos de tarjeta */
+.evento-card {
+  border-left-color: #ff99c8; /* rosado suave */
+  background: #ffe8f1;
+}
+
+.recordatorio-card {
+  border-left-color: #80e4a8; /* verde suave */
+  background: #e9ffe8;
+}
+
+.rutina-card {
+  border-left-color: #ffc27d; /* naranja suave */
+  background: #fff3e4;
+}
+
+/* Título del objeto */
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #222;
+}
+
+/* Descripción */
+.card-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Contenedor inferior (hora + tipo) */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

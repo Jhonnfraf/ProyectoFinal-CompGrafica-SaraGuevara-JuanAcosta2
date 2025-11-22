@@ -1,4 +1,70 @@
-.body{
-    background-color: rgba(239, 245, 255, 0.831);
-    border-radius: 15px;
+.page-layout {
+  display: grid;
+  grid-template-columns: 450px 1fr 400px; /* user / calendar / objects */
+  grid-template-rows: auto 1fr;           /* header / contenido */
+  grid-template-areas:
+    "header header header"
+    "user calendar objects";
+  height: 100vh;
+  background-color: #fbfdff;
+}
+
+/* Áreas */
+.header-area {
+  grid-area: header;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.user-area {
+  grid-area: user;
+  background: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #e5e5e5;
+}
+
+.calendar-area {
+  grid-area: calendar;
+  padding: 20px;
+  
+  justify-content: center;
+}
+
+.objects-area {
+  grid-area: objects;
+  background: #f4f4f4;
+  padding: 20px;
+  border-left: 1px solid #e5e5e5;
+}
+
+/* ---- RESPONSIVE ---- */
+
+/* Tablets */
+@media (max-width: 1100px) {
+  .page-layout {
+    grid-template-columns: 200px 1fr; 
+    grid-template-areas:
+      "header header"
+      "user calendar"
+      "user objects";
+    grid-template-rows: auto 1fr 1fr;
+  }
+}
+
+/* Celulares */
+@media (max-width: 700px) {
+  .page-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "header"
+      "user"
+      "calendar"
+      "objects";
+  }
+
+  .user-area,
+  .objects-area,
+  .calendar-area {
+    border: none;
+  }
 }

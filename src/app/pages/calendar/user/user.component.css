@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  font-family: Inter, sans-serif;
+}
+
+/* Contenedor principal */
+.user-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+/* Información del usuario */
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.user-id {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid #dcdcdc;
+  margin: 10px 0;
+}
+
+/* Botón crear calendario */
+.btn-crear {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.btn-crear:hover {
+  background: #222;
+  transform: scale(1.03);
+}
+
+/* Cards de calendarios */
+.calendars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.calendar-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 18px;
+  border-radius: 14px;
+  
+  /* Gradiente pastel */
+  background: linear-gradient(135deg, #c8e4ff, #e7d1ff);
+  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calendar-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Textos del calendario */
+.calendar-title {
+  font-weight: 600;
+  margin: 0 0 4px 0;
+}
+
+.calendar-date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* Botón de eliminar */
+.delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+  color: #b30000;
+}
+
+/* Cerrar sesión */
+.btn-logout {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: auto;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: #d93636;
+  transform: scale(1.03);
+}

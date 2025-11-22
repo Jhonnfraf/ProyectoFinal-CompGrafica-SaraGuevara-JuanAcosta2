@@ -1,12 +1,11 @@
 import { Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CalendarComponent } from './pages/calendar/calendar.component';
 
 import { PrimeNG } from 'primeng/config';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CalendarComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

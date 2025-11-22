@@ -91,6 +91,14 @@ export class HeaderComponent implements OnInit {
     this.mostrarModal = false;
     this.nombreEvento = '';
     this.descripcionEvento = '';
+    this.fechaEvento='';
+    this.horaEvento='';
+    this.horaRecordatorio = '';
+    this.fechaInicio = '';
+    this.fechaFin = '';
+    this.horaInicio= '';
+    this.horaFin='';
+    this.diasSeleccionados = [];
   }
 
   //Metodos auxiliares para convertir numero a nombre de dia y mes

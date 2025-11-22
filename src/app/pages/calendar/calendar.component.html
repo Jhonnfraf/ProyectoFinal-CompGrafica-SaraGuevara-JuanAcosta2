@@ -1,17 +1,27 @@
-<div class="body">
-    <div>
-        <app-header></app-header>
-    </div>
-    <div>
-        <app-user></app-user>
+<div class="page-layout">
 
-            <!-- Pass current selectedDate and items; listen to selectDate to update parent state -->
-            <app-calendar-comp
-                [selectedDate]="selectedDate"
-                [itemsByDate]="itemsByDate"
-                (selectDate)="onSelectDate($event)">
-            </app-calendar-comp>
+  <!-- HEADER ARRIBA -->
+  <header class="header-area">
+    <app-header></app-header>
+  </header>
 
-        <app-objetos></app-objetos>
-    </div>
+  <!-- PANEL IZQUIERDO (USER) -->
+  <aside class="user-area">
+    <app-user></app-user>
+  </aside>
+
+  <!-- CALENDARIO CENTRO -->
+  <main class="calendar-area">
+    <app-calendar-comp
+      [selectedDate]="selectedDate"
+      [itemsByDate]="itemsByDate"
+      (selectDate)="onSelectDate($event)">
+    </app-calendar-comp>
+  </main>
+
+  <!-- PANEL DERECHO (OBJETOS) -->
+  <aside class="objects-area">
+    <app-objetos></app-objetos>
+  </aside>
+
 </div>
