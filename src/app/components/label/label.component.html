@@ -1,9 +1,11 @@
 <div class="card flex justify-content-center">
-    <p-floatLabel class="my-field">
+    <p-floatLabel class="my-field" variant="on">
         <input pInputText 
         [id]="id" 
         [type]="type"
-        [(ngModel)]="model" class="custom-input" />
+        [ngModel]="model" 
+        (ngModelChange)="onInputChange($event)"
+        class="custom-input" />
         
         <label [for]="id">{{label}}</label>
     </p-floatLabel>

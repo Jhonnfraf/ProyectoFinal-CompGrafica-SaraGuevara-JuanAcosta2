@@ -19,6 +19,7 @@ export class LabelComponent {
   @Output() modelChange = new EventEmitter<any>();
 
   onInputChange(value: any) {
+    this.model = value;
     this.modelChange.emit(value);
   }
 }

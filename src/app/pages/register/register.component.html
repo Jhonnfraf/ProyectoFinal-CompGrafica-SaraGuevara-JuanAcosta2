@@ -1,0 +1,69 @@
+<app-toast></app-toast>
+<div class="register-container">
+  <div class="register-card">
+
+    <!-- LEFT: FORM -->
+    <div class="register-left">
+      <img src="images/logo.png" alt="Logo" class="register-logo">
+
+      <h2>Crea tu cuenta</h2>
+      <p class="subtitle">Empieza a organizar tus calendarios, eventos y rutinas</p>
+
+      <div class="form-group">
+        <label for="">Usuario</label>
+        <app-label
+          id="nombre-usuario"
+          label="Nombre de Usuario"
+          type="text"
+          [(model)]="username">
+        </app-label>
+      </div>
+
+      <div class="form-group">
+        <label for="">Email</label>
+        <app-label
+          id="email-usuario"
+          label="Correo Electrónico"
+          type="email"
+          [(model)]="email">
+        </app-label>
+      </div>
+
+      <div class="form-group">
+        <label for="">Contraseña</label>
+        <app-label
+          id="contrasena"
+          label="Contraseña"
+          type="password"
+          [(model)]="password">
+        </app-label>
+      </div>
+
+      <div class="form-group">
+        <label for="">Confirmar contraseña</label>
+        <app-label
+          id="confirmar-contrasena"
+          label="Confirmar Contraseña"
+          type="password"
+          [(model)]="confirmPassword">
+        </app-label>
+      </div>
+
+      <button class="register-button" (click)="registrar()">
+        Registrarse
+      </button>
+
+      <p class="login-text">
+        ¿Ya tienes una cuenta?
+        <a routerLink="/login">Inicia sesión aquí</a>
+      </p>
+
+    </div>
+
+    <!-- RIGHT: ILLUSTRATION -->
+    <div class="register-right">
+      <img src="images/register-pattern.png" alt="Pattern" class="pattern-img">
+    </div>
+
+  </div>
+</div>

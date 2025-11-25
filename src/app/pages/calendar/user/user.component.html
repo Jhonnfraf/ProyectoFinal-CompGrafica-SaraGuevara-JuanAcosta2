@@ -2,8 +2,8 @@
 
   <!-- Info de usuario -->
   <div class="user-info">
-      <p class="user-name">Juan Pérez</p>
-      <p class="user-id">ID: 12345</p>
+      <p class="user-name">{{user?.UserName}}</p>
+      <p class="user-id">ID: {{user?.Id}}</p>
   </div>
 
   <!-- Crear calendario -->
@@ -13,17 +13,24 @@
 
   <!-- Lista de calendarios -->
   <div class="calendars-list">
+    <h2>Tus calendarios</h2>
 
-      <!-- Ejemplo (luego aquí va un *ngFor) -->
-      <div class="calendar-card">
-          <div class="calendar-texts">
-              <p class="calendar-title">Calendario Personal</p>
-              <p class="calendar-date">Creado: 2025-11-18</p>
-          </div>
-
-          <button class="delete-btn">
+    <div class="calendar-card">
+        <ul *ngIf="calendars.length > 0"; else noCalendars>
+            <li *ngFor="let cal of calendars">
+                <p class="calendar-title"><strong>{{cal.CalendarName}}</strong> (ID: {{cal.CalendarId}})</p>
+                <p class="calendar-date"><small>Creado: {{cal.CreatedAt | date }}</small></p>
+            </li>
+            <button class="delete-btn">
               🗑️
-          </button>
+            </button>
+        </ul>
+    </div>
+        
+    <div class="">
+          <ng-template #noCalendars>
+            <p>No tienes calendarios creados.</p>
+          </ng-template>
       </div>
 
   </div>
