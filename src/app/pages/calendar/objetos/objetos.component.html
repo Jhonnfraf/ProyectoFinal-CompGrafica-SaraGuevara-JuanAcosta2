@@ -1,11 +1,12 @@
 <div class="objetos-comp">
-    <h2>Dia seleccionado<!--{{ selectedDate | date:'fullDate' }}>--></h2>
+    <h2>Eventos Futuros<!--{{ selectedDate | date:'fullDate' }}>--></h2>
 
     <div class="objetos-list" *ngIf="calendarId !== null">
         <div *ngFor="let event of eventos">
         <div class="objeto-card evento-card">
             <p class="card-title">{{ event.title }}</p>
             <p class="card-description">{{ event.description }}</p>
+            <p>{{ event.startDate | date:'yyyy-MM-dd' }}</p>
             <div class="card-footer">
                 <span>{{ event.startTime | date:'shortTime' }}</span>
                 <span>Evento</span>

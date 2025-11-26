@@ -4,8 +4,8 @@
     <div class="ae-calendar__header">
         <h2 class="ae-calendar__title">{{monthNames[currentMonth]}} {{currentYear}}</h2>
         <div class="ae-calendar__nav">
-            <button class="ae-btn ae-btn--icon" (click)="previousMonth()" aria-label="Mes anterior"></button>
-            <button class="ae-btn ae-btn--icon" (click)="nextMonth()" aria-label="Mes siguiente"></button>
+            <button class="ae-btn ae-btn--icon" (click)="previousMonth()" aria-label="Mes anterior">{{flechaAnterior}}</button>
+            <button class="ae-btn ae-btn--icon" (click)="nextMonth()" aria-label="Mes siguiente">{{flechaSiguiente}}</button>
         </div>
     </div>
 

@@ -31,6 +31,9 @@ export class CalendarCompComponent {
 
   dayNames = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
 
+  flechaAnterior = "<";
+  flechaSiguiente = ">";
+
   get currentMonth() { 
     return this.selectedDate.getMonth(); 
   }

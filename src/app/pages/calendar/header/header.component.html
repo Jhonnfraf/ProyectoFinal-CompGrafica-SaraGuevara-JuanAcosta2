@@ -24,18 +24,18 @@
       <ng-container *ngIf="OpcionSelecEvento">
         Titulo
         <app-label id="nombre-evento" label="Nombre del evento" type="text" [(model)]="nombreEvento"></app-label>
-        Descripcion (opcional)
+        Descripcion
         <app-label id="descripcion-evento" label="Descripción del evento" type="text" [(model)]="descripcionEvento"></app-label>
-        <div class="date-hour-container">
+        <!--<div class="date-hour-container">
           <div class="date-container">
-            Fecha <!-- Busco elemento aqui-->
+            Fecha 
             <app-date id="fecha-evento" [(model)]="fechaEvento"></app-date>
           </div>
           <div class="hour-container">
-            Hora <!-- Busco elemento aqui-->
+            Hora 
             <app-hour id="hora-evento" [(model)]="horaEvento"></app-hour>
           </div>
-        </div>
+        </div>-->
       </ng-container>
       <!--RECUADRO PARA RECORDATORIO-->
       <ng-container *ngIf="OpcionSelecRecordatorio">
