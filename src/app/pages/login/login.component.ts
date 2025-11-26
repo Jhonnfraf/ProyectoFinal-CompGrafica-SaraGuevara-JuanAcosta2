@@ -25,6 +25,7 @@ export class LoginComponent {
     private messageService: MessageService
   ) {}
 
+
   login(){
     if(!this.username || !this.password){
       this.messageService.add({
@@ -42,33 +43,35 @@ export class LoginComponent {
 
     this.loginService.login(data).subscribe({
       next: (response) => {
-        localStorage.setItem("userId", response.userId);
-        localStorage.setItem("username", response.username);
-        this.router.navigate(['/calendar']);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Inicio de sesión exitoso',
-          detail: `¡Bienvenido de nuevo ${response.username}!`
-        });
 
-        setTimeout(() => {
-          this.router.navigate(['/calendar']);
-        }, 2000);
+        const userId = response.userId;
+
+        localStorage.setItem("userId", userId.toString());
+        localStorage.setItem("username", response.username);
+
+        // 1️⃣ — Ahora sí pedimos el usuario real
+        this.loginService.getUserById(userId).subscribe({
+          next: user => {
+            localStorage.setItem("user", JSON.stringify(user));
+
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Inicio exitoso',
+              detail: `Bienvenido ${user.username}`
+            });
+
+            setTimeout(() => {
+              this.router.navigate(['/calendar']);
+            }, 1000);
+          }
+        });
       },
-      error: (error) => {
-        if(error.status === 401){
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error de autenticación',
-            detail: 'Usuario o contraseña incorrectos.'
-          });
-        } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error del servidor',
-            detail: 'Ocurrió un error. Por favor, inténtelo de nuevo más tarde.'
-          });
-        }
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Usuario o contraseña incorrectos.'
+        });
       }
     });
   }

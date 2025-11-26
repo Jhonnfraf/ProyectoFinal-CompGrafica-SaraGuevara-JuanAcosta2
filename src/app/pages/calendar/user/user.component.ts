@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
-  imports: [NgIf, NgForOf, CommonModule, FormsModule],
+  imports: [NgIf, CommonModule, FormsModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -15,7 +15,9 @@ export class UserComponent implements OnInit, OnDestroy {
   @Input() username: string | null = null;
   @Input() userId: number | null = null;
 
-  @Input() calendars: any[] = [];
+  calendarId: number | null = null;
+  calendarName: string = '';
+  createdAt: Date | null = null;
 
   private subscriptions = new Subscription();
 
@@ -32,14 +34,18 @@ export class UserComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const parsedId = Number(this.userId); // 🔥 ya es number garantizado
+    const parsedId = Number(this.userId); 
 
     this.calendarioService.getCalendarsByUserId(parsedId).subscribe({
       next: (calendars) => {
-        this.calendars = calendars;
+        if(calendars.length > 0){
+          const cal = calendars[0];
+          this.calendarId = cal.calendarId;
+          this.calendarName = cal.calendarName;
+          this.createdAt = cal.createdAt ? new Date(cal.createdAt) : null;
+          console.log("Calendario cargado:", cal , this.calendarId, this.calendarName, this.createdAt);
 
-        // 2️⃣ Mostrar modal si NO HAY calendarios
-        if (calendars.length === 0) {
+        }else{
           this.showModal = true;
         }
       },
@@ -48,6 +54,8 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  
   closeModal(){
     this.showModal = false;
   }
@@ -62,7 +70,9 @@ export class UserComponent implements OnInit, OnDestroy {
     this.calendarioService.createCalendar(body)
     .subscribe({
       next: (cal) => {
-        this.calendars.push(cal);
+        this.calendarId = cal.calendarId;
+        this.calendarName = cal.calendarName;
+        this.createdAt = cal.createdAt ? new Date(cal.createdAt) : null;
         this.showModal = false;
       },
       error: (err) => {

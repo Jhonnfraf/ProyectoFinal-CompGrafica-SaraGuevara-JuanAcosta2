@@ -3,19 +3,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 export interface Calendar {
-  CalendarId: number;
-  UserId: number;
-  CalendarName: string;
-  CreatedAt?: Date;
-  Events?: any[];
-  Reminders?: any[];
-  Routines?: any[];
+  calendarId: number;
+  userId: number;
+  calendarName: string;
+  createdAt?: string | Date;
+  events?: any[];
+  reminders?: any[];
+  routines?: any[];
+  user?: any;
 }
 
 export interface User {
-  UserId: number;
-  UserName: string;
-  Email?: string;
+  userId: number;
+  username: string;
+  email?: string;
 }
 
 // DTO para crear calendario

@@ -7,11 +7,18 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
 
-  private apiUrl = 'https://localhost:7172/api/Users/login'
+  private baseUrl = 'https://localhost:7172/api/Users';
 
   constructor(private http: HttpClient) { }
 
+  // Login
   login(data: any): Observable<any> {
-    return this.http.post(this.apiUrl, data);
+    return this.http.post(`${this.baseUrl}/login`, data);
   }
+
+  // Obtener usuario por ID
+  getUserById(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
+  }
+
 }

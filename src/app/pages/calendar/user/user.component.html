@@ -7,23 +7,20 @@
   </div>
 
   <!-- Crear calendario -->
-  <button class="btn-crear">+ Crear Calendario</button>
+  
 
   <hr class="divider">
 
   <!-- Lista de calendarios -->
   <div class="calendars-list">
-    <h2>Tus calendarios</h2>
+    <h2>Tu calendario</h2>
 
     <div class="calendar-card">
-        <ul *ngIf="calendars.length > 0; else noCalendars">
-            <li *ngFor="let cal of calendars">
-                <p class="calendar-title"><strong>{{cal.CalendarName}}</strong> (ID: {{cal.CalendarId}})</p>
-                <p class="calendar-date"><small>Creado: {{cal.CreatedAt | date }}</small></p>
+        <ul *ngIf="calendarId !== null">
+            <li >
+                <p class="calendar-title"><strong>{{calendarName}}</strong></p>
+                <p class="calendar-date"><small>Creado: {{createdAt}}</small></p>
             </li>
-            <button class="delete-btn">
-              🗑️
-            </button>
         </ul>
     </div>
         
