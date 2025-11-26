@@ -125,3 +125,54 @@
   background: #d93636;
   transform: scale(1.03);
 }
+
+/* Modal de creación de calendario */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  width: 350px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.25);
+}
+
+.modal-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-primary {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.btn-secondary {
+  background: #ccc;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+}

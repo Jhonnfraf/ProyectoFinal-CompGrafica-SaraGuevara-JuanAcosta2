@@ -1,40 +1,79 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule, NgIf, NgForOf } from '@angular/common';
-import { CalendarioService, User, Calendar } from '../../../services/calendario.service';
+import { CalendarioService, Calendar } from '../../../services/calendario.service';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
-  imports: [NgIf, NgForOf, CommonModule],
+  imports: [NgIf, NgForOf, CommonModule, FormsModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit, OnDestroy {
-  user: User | null = null;
-  calendars: Calendar[] = [];
+
+  @Input() username: string | null = null;
+  @Input() userId: number | null = null;
+
+  @Input() calendars: any[] = [];
+
   private subscriptions = new Subscription();
 
-  constructor(private calendarioService: CalendarioService) {}
-  
-  ngOnInit() {
-    // Suscribirse al usuario
-    this.subscriptions.add(
-      this.calendarioService.user$.subscribe(user => {
-        this.user = user;
-        console.log('UserComponent loaded', user);
-      })
-    );
+  //Modal
+  showModal: boolean = false;
+  newCalendarName: string = '';
 
-    // Suscribirse a los calendarios
-    this.subscriptions.add(
-      this.calendarioService.calendars$.subscribe(calendars => {
+  constructor(private calendarioService: CalendarioService) {}
+
+  ngOnInit() {
+    // 1️⃣ Asegurar que userId exista
+    if (this.userId == null) {
+      console.error("userId es NULL. No puedo cargar calendarios.");
+      return;
+    }
+
+    const parsedId = Number(this.userId); // 🔥 ya es number garantizado
+
+    this.calendarioService.getCalendarsByUserId(parsedId).subscribe({
+      next: (calendars) => {
         this.calendars = calendars;
-        console.log('Calendarios cargados:', calendars);
-      })
-    );
+
+        // 2️⃣ Mostrar modal si NO HAY calendarios
+        if (calendars.length === 0) {
+          this.showModal = true;
+        }
+      },
+      error: (err) => {
+        console.error("Error al obtener calendarios:", err);
+      }
+    });
+  }
+  closeModal(){
+    this.showModal = false;
+  }
+  
+  createFirstCalendar(){
+    if (!this.newCalendarName.trim()) return;
+    const body = {
+    userId: Number(this.userId),
+    calendarName: this.newCalendarName
+    };
+
+    this.calendarioService.createCalendar(body)
+    .subscribe({
+      next: (cal) => {
+        this.calendars.push(cal);
+        this.showModal = false;
+      },
+      error: (err) => {
+        console.error('Error al crear calendario:', err);
+      }
+    });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
+  
+
 }

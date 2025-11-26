@@ -2,8 +2,8 @@
 
   <!-- Info de usuario -->
   <div class="user-info">
-      <p class="user-name">{{user?.UserName}}</p>
-      <p class="user-id">ID: {{user?.Id}}</p>
+      <p class="user-name">{{ username }}</p>
+      <p class="user-id">ID: {{ userId }}</p>
   </div>
 
   <!-- Crear calendario -->
@@ -16,7 +16,7 @@
     <h2>Tus calendarios</h2>
 
     <div class="calendar-card">
-        <ul *ngIf="calendars.length > 0"; else noCalendars>
+        <ul *ngIf="calendars.length > 0; else noCalendars">
             <li *ngFor="let cal of calendars">
                 <p class="calendar-title"><strong>{{cal.CalendarName}}</strong> (ID: {{cal.CalendarId}})</p>
                 <p class="calendar-date"><small>Creado: {{cal.CreatedAt | date }}</small></p>
@@ -40,4 +40,22 @@
   <!-- Cerrar sesión -->
   <button class="btn-logout">Cerrar sesión</button>
 
+</div>
+
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal">
+    <h2>Crear tu primer calendario</h2>
+
+    <input 
+      type="text" 
+      placeholder="Nombre del calendario"
+      [(ngModel)]="newCalendarName"
+      class="modal-input"
+    />
+
+    <div class="modal-actions">
+      <button class="btn-primary" (click)="createFirstCalendar()">Crear</button>
+      <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
+    </div>
+  </div>
 </div>

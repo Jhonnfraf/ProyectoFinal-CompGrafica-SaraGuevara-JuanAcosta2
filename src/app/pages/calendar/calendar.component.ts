@@ -16,6 +16,10 @@ export class CalendarComponent {
   // current selected date held in the parent so the child can be controlled
   selectedDate: Date = new Date();
 
+  calendars = [];
+  userId = Number(localStorage.getItem("userId"));
+  username = localStorage.getItem("username");
+
   // optional: mapping of items per date (yyyy-mm-dd) - empty by default
   itemsByDate: { [date: string]: number } = {};
 

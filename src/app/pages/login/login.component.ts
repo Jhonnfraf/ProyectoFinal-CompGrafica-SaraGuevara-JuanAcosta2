@@ -42,6 +42,9 @@ export class LoginComponent {
 
     this.loginService.login(data).subscribe({
       next: (response) => {
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("username", response.username);
+        this.router.navigate(['/calendar']);
         this.messageService.add({
           severity: 'success',
           summary: 'Inicio de sesión exitoso',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-// Interfaces para tipado
 export interface Calendar {
   CalendarId: number;
   UserId: number;
@@ -13,34 +13,38 @@ export interface Calendar {
 }
 
 export interface User {
-  Id: number;
+  UserId: number;
   UserName: string;
   Email?: string;
-  // otros campos que tenga tu usuario
+}
+
+// DTO para crear calendario
+export interface CreateCalendarDto {
+  userId: number;
+  calendarName: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarioService {
-  // Fecha seleccionada
+
+  private apiUrl = 'https://localhost:7172/api'; // Cambia según tu backend
+
   private selectedDateSource = new BehaviorSubject<Date>(new Date());
   selectedDate$ = this.selectedDateSource.asObservable();
 
-  // Usuario actual
   private userSource = new BehaviorSubject<User | null>(this.getUserFromLocalStorage());
   user$ = this.userSource.asObservable();
 
-  // Calendarios del usuario
   private calendarsSource = new BehaviorSubject<Calendar[]>(this.getCalendarsFromLocalStorage());
   calendars$ = this.calendarsSource.asObservable();
 
-  constructor() {
-    // Al inicializar, cargamos los datos del localStorage
+  constructor(private http: HttpClient) {
     this.loadUserData();
   }
 
-  // ===== FECHA SELECCIONADA =====
+  // ===== FECHA =====
   setSelectedDate(date: Date) {
     this.selectedDateSource.next(date);
   }
@@ -50,35 +54,21 @@ export class CalendarioService {
   }
 
   // ===== USUARIO =====
-
-  /**
-   * Obtiene el usuario del localStorage
-   * Se espera que esté guardado en una clave llamada 'user'
-   * Formato esperado: { Id: number, UserName: string, Email: string }
-   */
   private getUserFromLocalStorage(): User | null {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        return JSON.parse(userJson);
-      } catch (e) {
-        console.error('Error al parsear usuario del localStorage:', e);
-        return null;
-      }
+    const json = localStorage.getItem('user');
+    if (!json) return null;
+
+    try {
+      return JSON.parse(json);
+    } catch {
+      return null;
     }
-    return null;
   }
 
-  /**
-   * Obtiene el usuario actual
-   */
   getUser(): User | null {
     return this.userSource.getValue();
   }
 
-  /**
-   * Actualiza el usuario en el servicio (también en localStorage)
-   */
   setUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.userSource.next(user);
@@ -86,58 +76,61 @@ export class CalendarioService {
 
   // ===== CALENDARIOS =====
 
-  /**
-   * Obtiene los calendarios del localStorage
-   * Se espera que estén guardados en una clave llamada 'calendars'
-   * Formato: Array<Calendar>
-   */
   private getCalendarsFromLocalStorage(): Calendar[] {
-    const calendarsJson = localStorage.getItem('calendars');
-    if (calendarsJson) {
-      try {
-        return JSON.parse(calendarsJson);
-      } catch (e) {
-        console.error('Error al parsear calendarios del localStorage:', e);
-        return [];
-      }
+    const json = localStorage.getItem('calendars');
+    if (!json) return [];
+
+    try {
+      return JSON.parse(json);
+    } catch {
+      return [];
     }
-    return [];
   }
 
-  /**
-   * Obtiene los calendarios del usuario actual
-   */
   getCalendars(): Calendar[] {
     return this.calendarsSource.getValue();
   }
 
-  /**
-   * Obtiene un observable de los calendarios (para suscribirse a cambios)
-   */
   getCalendars$(): Observable<Calendar[]> {
     return this.calendars$;
   }
 
-  /**
-   * Actualiza los calendarios en el servicio (también en localStorage)
-   */
   setCalendars(calendars: Calendar[]) {
     localStorage.setItem('calendars', JSON.stringify(calendars));
     this.calendarsSource.next(calendars);
   }
 
-  /**
-   * Carga todos los datos del usuario (llamado al inicializar)
-   */
   private loadUserData() {
     const user = this.getUserFromLocalStorage();
     const calendars = this.getCalendarsFromLocalStorage();
-    
-    if (user) {
-      this.userSource.next(user);
-    }
-    if (calendars.length > 0) {
-      this.calendarsSource.next(calendars);
-    }
+
+    if (user) this.userSource.next(user);
+    if (calendars.length > 0) this.calendarsSource.next(calendars);
+  }
+
+  // =============================
+  // === 🔥 MÉTODOS QUE FALTABAN ===
+  // =============================
+
+  /** GET: Obtener calendarios desde el backend */
+  getCalendarsByUserId(userId: number): Observable<Calendar[]> {
+    return this.http.get<Calendar[]>(`${this.apiUrl}/Calendars/user/${userId}`);
+  }
+
+  /** POST: Crear un nuevo calendario */
+  createCalendar(dto: CreateCalendarDto): Observable<Calendar> {
+    return new Observable(observer => {
+      this.http.post<Calendar>(`${this.apiUrl}/Calendars`, dto).subscribe({
+        next: created => {
+          // Actualizamos localStorage y BehaviorSubject
+          const updatedList = [...this.getCalendars(), created];
+          this.setCalendars(updatedList);
+
+          observer.next(created);
+          observer.complete();
+        },
+        error: err => observer.error(err)
+      });
+    });
   }
 }
