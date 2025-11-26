@@ -1,37 +1,24 @@
 <div class="objetos-comp">
     <h2>Dia seleccionado<!--{{ selectedDate | date:'fullDate' }}>--></h2>
 
-    <div class="objetos-list">
-        
-        <!-- 🔥 Ejemplo: card EVENTO -->
+    <div class="objetos-list" *ngIf="calendarId !== null">
+        <div *ngFor="let event of eventos">
         <div class="objeto-card evento-card">
-            <p class="card-title">Título del evento</p>
-            <p class="card-description">Descripción ejemplo</p>
+            <p class="card-title">{{ event.title }}</p>
+            <p class="card-description">{{ event.description }}</p>
             <div class="card-footer">
-                <span>09:00 AM</span>
+                <span>{{ event.startTime | date:'shortTime' }}</span>
                 <span>Evento</span>
             </div>
+            <button class="header__button" (click)="abrirModalBorrarEvento(event.eventId)">Borrar</button>
         </div>
+    </div>
+</div>
 
-        <!-- 🔥 Ejemplo: card RECORDATORIO -->
-        <div class="objeto-card recordatorio-card">
-            <p class="card-title">Recordatorio ejemplo</p>
-            <p class="card-description">Descripción ejemplo</p>
-            <div class="card-footer">
-                <span>05:00 PM</span>
-                <span>Recordatorio</span>
-            </div>
-        </div>
-
-        <!-- 🔥 Ejemplo: card RUTINA -->
-        <div class="objeto-card rutina-card">
-            <p class="card-title">Rutina ejemplo</p>
-            <p class="card-description">Descripción ejemplo</p>
-            <div class="card-footer">
-                <span>De 6:00 a 7:00</span>
-                <span>Rutina</span>
-            </div>
-        </div>
-
+<div class="modal-fondo-borrar" *ngIf="abrirModalDelete">
+    <div class="modal-borrar-evento">
+        <p>¿Desea eliminar el evento?</p>
+        <button class="aceptar_button" (click)="EliminarEvento()">Aceptar</button>
+        <button class="cerrar_button" (click)="cerrarModalBorrarEvento()">Cerrar</button>
     </div>
 </div>

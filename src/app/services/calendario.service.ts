@@ -134,4 +134,37 @@ export class CalendarioService {
       });
     });
   }
+
+  //Metodos para los eventos
+  private calendarIdSource = new BehaviorSubject<number | null>(null);
+  calendarId$ = this.calendarIdSource.asObservable();
+
+  setCalendarId(id: number) {
+    this.calendarIdSource.next(id);
+  }
+
+  getCalendarId() {
+    return this.calendarIdSource.value;
+  }
+
+  createEvent(body: {
+  calendarId: number;
+  title: string;
+  description?: string;
+  startDate: string;
+  }) {
+    return this.http.post<any>(`${this.apiUrl}/Events`, body);
+  }
+
+  getEventsByCalendarId(calendarId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Events/${calendarId}`);
+  }
+
+  getEvents(calendarId: number): Observable<any[]>{
+    return this.http.get<any[]>(`${this.apiUrl}/Events/calendar/${calendarId}`);
+  }
+
+  deleteEvent(eventId: number, calendarId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/Events/calendar/${calendarId}/${eventId}`);
+  }
 }

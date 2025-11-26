@@ -2,12 +2,15 @@
 
   <!-- HEADER ARRIBA -->
   <header class="header-area">
-    <app-header></app-header>
+    <app-header 
+    [username]="username"
+    [userId]="userId"
+   ></app-header>
   </header>
 
   <!-- PANEL IZQUIERDO (USER) -->
   <aside class="user-area">
-    <app-user [userId]="userId" [username]="username" [calendars]="calendars"></app-user>
+    <app-user [userId]="userId" [username]="username" ></app-user>
   </aside>
 
   <!-- CALENDARIO CENTRO -->
@@ -21,7 +24,9 @@
 
   <!-- PANEL DERECHO (OBJETOS) -->
   <aside class="objects-area">
-    <app-objetos></app-objetos>
+    <app-objetos
+    [userId]="userId"
+    [username]="username"></app-objetos>
   </aside>
 
 </div>

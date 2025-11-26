@@ -30,4 +30,6 @@ export class CalendarComponent {
     this.selectedDate = date;
     this.calendarioService.setSelectedDate(date);
   }
+
+  
 }
