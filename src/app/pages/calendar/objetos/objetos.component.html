@@ -1,18 +1,47 @@
+<app-toast></app-toast>
 <div class="objetos-comp">
     <h2>Eventos Futuros<!--{{ selectedDate | date:'fullDate' }}>--></h2>
-
-    <div class="objetos-list" *ngIf="calendarId !== null">
-        <div *ngFor="let event of eventos">
-        <div class="objeto-card evento-card">
-            <p class="card-title">{{ event.title }}</p>
-            <p class="card-description">{{ event.description }}</p>
-            <p>{{ event.startDate | date:'yyyy-MM-dd' }}</p>
-            <div class="card-footer">
-                <span>{{ event.startTime | date:'shortTime' }}</span>
-                <span>Evento</span>
+    <!-- Validar si hay eventos-->
+    <div *ngIf="eventos.length > 0">
+        <div class="objetos-list" *ngIf="calendarId !== null">
+            <div *ngFor="let event of eventos">
+                <div *ngIf="event.startDate >= hoy" class="objeto-card evento-card">
+                        <p class="card-title">{{ event.title }}</p>
+                        <p class="card-description">{{ event.description }}</p>
+                        <p>{{ event.startDate | date:'yyyy-MM-dd' }}</p>
+                        <div class="card-footer">
+                            <span>{{ event.startTime | date:'shortTime' }}</span>
+                        </div>
+                        <div class="buttosn_card">
+                            <button class="cerrar_button" (click)="abrirModalBorrarEvento(event.eventId)">Borrar</button>
+                            <button class="aceptar_button" (click)="abrirModalEditarEvento(event.eventId)">Editar</button>
+                        </div>
+                </div>
             </div>
-            <button class="header__button" (click)="abrirModalBorrarEvento(event.eventId)">Borrar</button>
         </div>
+        
+        <br>
+        <h2>Eventos Pasados<!--{{ selectedDate | date:'fullDate' }}>--></h2>
+        <div class="objetos-list" *ngIf="calendarId !== null">
+            <div *ngFor="let event of eventos">
+                <div *ngIf="event.startDate < hoy" class="objeto-card evento-card evento-pasado">
+                        <p class="card-title">{{ event.title }}</p>
+                        <p class="card-description">{{ event.description }}</p>
+                        <p>{{ event.startDate | date:'yyyy-MM-dd' }}</p>
+                        <div class="card-footer">
+                            <span>{{ event.startTime | date:'shortTime' }}</span>
+                        </div>
+                        <div class="buttosn_card">
+                            <button class="cerrar_button" (click)="abrirModalBorrarEvento(event.eventId)">Borrar</button>
+                            <button class="aceptar_button" (click)="abrirModalEditarEvento(event.eventId)">Editar</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="eventos.length === 0">
+        <p style="color: rgb(73, 73, 73);">Aqui no hay eventos.</p>
+        <p class="aviso-bonito">Creemos uno!</p>
     </div>
 </div>
 
@@ -21,5 +50,18 @@
         <p>¿Desea eliminar el evento?</p>
         <button class="aceptar_button" (click)="EliminarEvento()">Aceptar</button>
         <button class="cerrar_button" (click)="cerrarModalBorrarEvento()">Cerrar</button>
+    </div>
+</div>
+<div class="modal-fondo-borrar" *ngIf="abrirModalEditar">
+    <div class="modal-borrar-evento">
+        <div class="elements-editar-evento">
+            <p>Editar Evento</p>
+            <app-label id="nombre-evento" label="Nombre evento" type="text" [(model)]="eventoEditado.title"></app-label>
+            <app-label id="descripcion-evento" label="Descripción evento" type="text" [(model)]="eventoEditado.description"></app-label>
+            <app-date id="calendario-evento" [(model)]="eventoEditado.startDate"></app-date>
+            <!-- Aquí puedes agregar los campos para editar el evento -->
+            <button class="aceptar_button" (click)="EditarEvento()">Guardar Cambios</button>
+            <button class="cerrar_button" (click)="cerrarModalEditarEvento()">Cerrar</button>
+        </div>
     </div>
 </div>

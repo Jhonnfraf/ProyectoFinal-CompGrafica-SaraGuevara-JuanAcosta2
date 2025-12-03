@@ -143,7 +143,7 @@
 .modal {
   background: white;
   padding: 20px;
-  width: 350px;
+  width: 450px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0,0,0,0.25);
 }
@@ -159,7 +159,8 @@
 
 .modal-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
 }
 
 .btn-primary {

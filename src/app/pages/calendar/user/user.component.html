@@ -1,3 +1,4 @@
+<app-toast></app-toast>
 <div class="user-container">
 
   <!-- Info de usuario -->
@@ -35,13 +36,13 @@
   <hr class="divider">
 
   <!-- Cerrar sesión -->
-  <button class="btn-logout">Cerrar sesión</button>
+  <button class="btn-logout" routerLink="/home">Cerrar sesión</button>
 
 </div>
 
 <div class="modal-overlay" *ngIf="showModal">
   <div class="modal">
-    <h2>Crear tu primer calendario</h2>
+    <h2 style="justify-content: center;">Ponle nombre a tu calendario</h2>
 
     <input 
       type="text" 
@@ -52,7 +53,6 @@
 
     <div class="modal-actions">
       <button class="btn-primary" (click)="createFirstCalendar()">Crear</button>
-      <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
     </div>
   </div>
 </div>

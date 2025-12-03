@@ -1,3 +1,4 @@
+<app-toast></app-toast>
 <div class="header__container">
     <div>
         <h1>Mi Calendario</h1>
@@ -39,7 +40,11 @@
       </ng-container>
       <!--RECUADRO PARA RECORDATORIO-->
       <ng-container *ngIf="OpcionSelecRecordatorio">
-        Titulo
+        <p>¡Próximamente!</p>
+        <p>Crea recordatorios personalizados para tus tareas importantes.
+          Establece fechas y horas específicas para recibir notificaciones oportunas.
+        </p>
+        <!--Titulo
         <app-label id="nombre-evento" label="Nombre del evento" type="text" [(model)]="nombreEvento"></app-label>
         Descripcion (opcional)
         <app-label id="descripcion-evento" label="Descripción del evento" type="text" [(model)]="descripcionEvento"></app-label>
@@ -67,12 +72,17 @@
             <label>Fecha de fin (opcional)</label>
             <app-date [(model)]="fechaFin"></app-date>
           </div>
-        </div>
-      </ng-container>
+        </div>-->
+      </ng-container> 
 
       <!--RECUADRO PARA RUTINA-->
       <ng-container *ngIf="OpcionSelecRutina">
-        <label>Título</label>
+
+        <p>¡Próximamente!</p>
+        <p>Guarda tus propias rutinas, los dias de la semana que necesites.
+          Una hora de inicio y una de fin.
+        </p>
+        <!--<label>Título</label>
         <app-label id="nombre-rutina" label="Nombre de la rutina" type="text" [(model)]="nombreEvento"></app-label>
 
         <label>Descripción (opcional)</label>
@@ -99,7 +109,7 @@
           (click)="seleccionarDias(dia.id)">
             {{dia.nombre}}
           </button>
-        </div>
+        </div>-->
       </ng-container>
     </div>
     

@@ -2,11 +2,16 @@ import { Component, Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { CalendarioService } from '../../../services/calendario.service';
 import { CommonModule } from '@angular/common';
+import { LabelComponent } from '../../../components/label/label.component';
+import { DateComponent } from '../../../components/date/date.component';
+import { MessageService } from 'primeng/api';
+import { ToastComponent } from '../../../components/toast/toast.component';
 
 
 @Component({
   selector: 'app-objetos',
-  imports: [CommonModule],
+  imports: [CommonModule, LabelComponent, DateComponent, ToastComponent],
+  standalone: true,
   templateUrl: './objetos.component.html',
   styleUrl: './objetos.component.css'
 })
@@ -16,9 +21,12 @@ export class ObjetosComponent implements OnInit {
   @Input() userId: number | null = null;
   @Input() calendarId: number | null = null;
 
+  hoy: Date = new Date();
+
   eventos: any[] = [];
 
-  constructor(private calendarioService: CalendarioService) {}
+  constructor(private calendarioService: CalendarioService,
+              private messageService : MessageService) {}
 
   ngOnInit(): void {
     if (!this.userId) {
@@ -52,7 +60,11 @@ export class ObjetosComponent implements OnInit {
     if (this.calendarId) {
       this.calendarioService.getEvents(this.calendarId).subscribe({
         next: (events) => {
-          this.eventos = events;
+          this.eventos = events.map(e => ({
+            ...e,
+            startDate: new Date(e.startDate)   // 👈 convertir aquí
+          }));
+
           console.log("Eventos obtenidos:", this.eventos);
         },
         error: (err) => {
@@ -63,6 +75,12 @@ export class ObjetosComponent implements OnInit {
   }
 
   eventoSeleccionadoId: number | null = null;
+
+  eventoEditado: any = {
+    title: '',
+    description: '',
+    startDate: ''
+  }
 
   EliminarEvento() {
     if (this.calendarId && this.eventoSeleccionadoId !== null) {
@@ -82,6 +100,59 @@ export class ObjetosComponent implements OnInit {
     }
   }
 
+  EditarEvento(){
+
+      if (
+        !this.eventoEditado.title ||
+        !this.eventoEditado.description ||
+        !this.eventoEditado.startDate
+      ) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Por favor, llene todos los campos'
+        });
+        return; 
+      }
+      const fecha = this.eventoEditado.startDate;
+      const fechaString = fecha instanceof Date
+        ? fecha.toISOString()
+        : fecha;
+      
+      if (!this.eventoSeleccionadoId || !this.calendarId) return;
+
+      const payload = {
+          title: this.eventoEditado.title,
+          description: this.eventoEditado.description,
+          startDate: fechaString
+      };
+
+      this.calendarioService.updateEvent(
+        this.eventoSeleccionadoId,
+        this.calendarId,
+        payload
+      ).subscribe({
+        next: () => {
+          console.log("Evento actualizado: ", payload);
+
+          this.eventos = this.eventos.map(e =>
+            e.eventId === this.eventoSeleccionadoId ? { ...e, ...payload } : e
+          );
+
+          this.cerrarModalEditarEvento();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Evento actualizado correctamente'
+          });
+          
+        },
+        error: err => console.error("Error actualizando evento:", err)
+      })
+      
+      
+  }
+
   
   abrirModalDelete = false;
   abrirModalBorrarEvento(eventId: number) {
@@ -95,4 +166,28 @@ export class ObjetosComponent implements OnInit {
     this.abrirModalDelete = false;
   }
 
+  abrirModalEditar = false;
+  abrirModalEditarEvento(eventId: number) {
+    // Lógica para abrir el modal de edición
+    console.log("Evento a editar:", eventId);
+    this.eventoSeleccionadoId = eventId;
+
+    const evento = this.eventos.find(e => e.eventId === eventId);
+    if (!evento) return;
+
+    this.eventoEditado = {
+      title: evento.title,
+      description: evento.description,
+      startDate: evento.startDate ? new Date(evento.startDate) : null
+    }
+
+    console.log("Datos del evento a editar:", this.eventoEditado);
+
+    this.abrirModalEditar = true;
+    // Aquí iría la lógica para abrir el modal de edición
+  }
+  cerrarModalEditarEvento() {
+    // Lógica para cerrar el modal de edición
+    this.abrirModalEditar = false;
+  }
 }

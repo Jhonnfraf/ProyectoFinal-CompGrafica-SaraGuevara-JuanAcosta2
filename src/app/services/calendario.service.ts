@@ -30,7 +30,7 @@ export interface CreateCalendarDto {
 })
 export class CalendarioService {
 
-  private apiUrl = 'https://localhost:7172/api'; // Cambia según tu backend
+  private apiUrl = 'https://localhost:7172/api'; 
 
   private selectedDateSource = new BehaviorSubject<Date>(new Date());
   selectedDate$ = this.selectedDateSource.asObservable();
@@ -166,5 +166,9 @@ export class CalendarioService {
 
   deleteEvent(eventId: number, calendarId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/Events/calendar/${calendarId}/${eventId}`);
+  }
+
+  updateEvent(eventId: number, calendarId: number, body: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/Events/calendar/${calendarId}/${eventId}`, body);
   }
 }

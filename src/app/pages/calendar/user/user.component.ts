@@ -3,10 +3,13 @@ import { CommonModule, NgIf, NgForOf } from '@angular/common';
 import { CalendarioService, Calendar } from '../../../services/calendario.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { ToastComponent } from '../../../components/toast/toast.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user',
-  imports: [NgIf, CommonModule, FormsModule],
+  imports: [NgIf, CommonModule, FormsModule, RouterLink, ToastComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -16,7 +19,7 @@ export class UserComponent implements OnInit, OnDestroy {
   @Input() userId: number | null = null;
 
   calendarId: number | null = null;
-  calendarName: string = '';
+  calendarName: string  = '';
   createdAt: Date | null = null;
 
   private subscriptions = new Subscription();
@@ -25,7 +28,7 @@ export class UserComponent implements OnInit, OnDestroy {
   showModal: boolean = false;
   newCalendarName: string = '';
 
-  constructor(private calendarioService: CalendarioService) {}
+  constructor(private calendarioService: CalendarioService, private messageService: MessageService) {}
 
   ngOnInit() {
     // 1️⃣ Asegurar que userId exista
@@ -61,6 +64,15 @@ export class UserComponent implements OnInit, OnDestroy {
   }
   
   createFirstCalendar(){
+    if (!this.newCalendarName || !this.newCalendarName.trim()) {
+      console.error('userId es null. No se puede crear calendario.');
+      this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Por favor, llene todos los campos'
+        });
+      return;
+    }
     if (!this.newCalendarName.trim()) return;
     const body = {
     userId: Number(this.userId),

@@ -6,10 +6,14 @@ import { DateComponent } from '../../../components/date/date.component';
 import { HourComponent } from '../../../components/hour/hour.component';
 import { FormsModule } from "@angular/forms";
 import { NgFor } from '@angular/common';
+import { ToastComponent } from '../../../components/toast/toast.component';
+import { MessageService } from 'primeng/api';
+
+//NgFor, DateComponent, HourComponent
 
 @Component({
   selector: 'app-header',
-  imports: [NgIf,NgFor, LabelComponent, DateComponent, HourComponent, FormsModule],
+  imports: [NgIf, LabelComponent, FormsModule, ToastComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -20,7 +24,9 @@ export class HeaderComponent implements OnInit {
   @Input() userId: number | null = null;
   @Input() calendarId: number | null = null;
 
-  constructor(private calendarioService: CalendarioService) {}
+  constructor(private calendarioService: CalendarioService,
+              private messageService : MessageService
+  ) {}
 
   ngOnInit(): void {
       if (!this.userId) {
@@ -194,6 +200,23 @@ export class HeaderComponent implements OnInit {
       console.error("No hay calendarId cargado.");
       return;
     }
+
+    //Empieza la validacion
+
+    if (!this.nombreEvento || 
+        !this.descripcionEvento || 
+        !this.selectedDate) {
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor, llene todos los campos'
+      });
+
+      return; 
+    }
+
+    //Fin validacion
     
     const fechafinal = this.formatFecha(this.selectedDate);
     console.log("Fecha y hora final del evento:", fechafinal);
@@ -202,7 +225,7 @@ export class HeaderComponent implements OnInit {
       calendarId: this.calendarId,
       title: this.nombreEvento,
       description: this.descripcionEvento,
-      startDate: fechafinal, // Usar la función para formatear
+      startDate: fechafinal, 
       endDate: fechafinal
     };
 
@@ -210,6 +233,11 @@ export class HeaderComponent implements OnInit {
       next: (res) => {
         console.log("Evento creado:", res);
         this.cerrarModal();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Evento agregado correctamente'
+        });
       },
       error: (err) => {
         console.error("Error creando evento:", err);
